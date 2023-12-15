@@ -1,32 +1,54 @@
 const fs = require('fs');
- 
-fs.readFile('D:/code/apikeys.txt', (err, data) => {
-    if (err) throw err;
- 
-    console.log(data.toString());
-})
+const { google } = require('googleapis');
+const nodemailer = require('nodemailer');
 
-const nodeMailer = require('nodemailer');
+const apiKeysContent = fs.readFileSync('D:/code/apikeys.json', 'utf-8');
+const apiKeys = JSON.parse(apiKeysContent);
 
-const html = `
-    <h1>Hello World</h1>
-    <p>Nodemailer message</p>
-`;
+const {
+  CLIENT_ID,
+  CLIENT_SECRET,
+  REDIRECT_URI,
+  REFRESH_TOKEN,
+} = apiKeys.googleMailAuth;
 
-async function main() {
+const oAtuh2Client = new google.auth.OAuth2(CLIENT_ID, CLIENT_SECRET, REDIRECT_URI)
 
-    nodeMailer.createTransport({
-        host: "mail.openjavascript.info",
-        port: 465,
-        secure: true,
-        auth: {
-            user: "open.jscode@gmail.com",
-            pass: "a"
-        }
+oAtuh2Client.setCredentials({refresh_token: REFRESH_TOKEN})
 
-    });
+async function sendMail() {
 
+    try {
+        const accessToken = await oAtuh2Client.getAccessToken()
+
+        const transport = nodemailer.createTransport({
+            service: "gmail",
+            auth: {
+                type: "OAuth2",
+                user: "open.jscode@gmail.com",
+                clientId: CLIENT_ID,
+                clientSecret: CLIENT_SECRET,
+                refreshToken: REFRESH_TOKEN,
+                accessToken: accessToken
+            },
+        })
+
+        const mailOptions = {
+            from: "Mail Service <open.jscode@gmail.com>",
+            to: "peter.rapcsak@gmail.com",
+            subject: "Hello from gmail using API",
+            text: "hello hello csao",
+            html: "<h1>hello hello csao</h1>",
+        };
+
+        const result = await transport.sendMail(mailOptions)
+        return result
+
+    } catch (error) {
+        return error
+    }
 }
 
-
-main();
+sendMail()
+    .then((result) => console.log("Email sent...", result))
+    .catch((error) => console.log(error.message));

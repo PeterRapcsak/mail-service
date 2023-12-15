@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "googleapis": "^129.0.0",
     "nodemailer": "^6.9.7"
   }
 }
