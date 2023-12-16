@@ -39,16 +39,14 @@ async function sendMail() {
       },
     });
 
-    // Generate the Wi-Fi code
-    const wifiCode = wifi();
 
     // Modify mailOptions to include the generated Wi-Fi code
     const mailOptions = {
       from: `Mail Service <${senderAddress}>`,
       bcc: recipientAddresses.join(", "), // Use BCC to hide recipients from each other
       subject: "Wifi Code",
-      text: `Your Wi-Fi Code is: ${wifiCode}`,
-      html: `<p>Your Wi-Fi Code is:</p><h1>${wifiCode}</h1>`,
+      text: `Message`,
+      html: `<p>Message</p><h1>Haiii</h1>`,
     };
 
     const result = await transport.sendMail(mailOptions);
@@ -58,16 +56,6 @@ async function sendMail() {
   }
 }
 
-function excelDate(date1) {
-  const temp = new Date(1899, 11, 30); // Note: JavaScript months are 0-indexed
-  const delta = (date1 - temp) / (1000 * 60 * 60 * 24);
-  return Math.floor(delta);
-}
-
-function wifi() {
-  const base = Math.floor(excelDate(new Date()));
-  return Math.floor((base + 2415019) / new Date().getDate());
-}
 
 // Schedule the task to run every day at 7:00 AM
 cron.schedule('10 12 * * *', async () => {
