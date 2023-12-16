@@ -15,8 +15,8 @@ const {
   REFRESH_TOKEN,
 } = apiKeys.googleMailAuth;
 
-const senderAddress = "";
-const recipientAddresses = [""]; // Add more email addresses as needed
+const senderAddress = "email1@gmail.com";
+const recipientAddresses = ["email2@gmail.com", "email3@gmail.com"]; // Add more email addresses as needed
 
 //! ///////////////////////////////////////////////////
 
