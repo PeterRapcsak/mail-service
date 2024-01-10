@@ -44,7 +44,7 @@ async function sendMail() {
     const mailOptions = {
       from: `Mail Service <${senderAddress}>`,
       bcc: recipientAddresses.join(", "), // Use BCC to hide recipients from each other
-      subject: "Wifi Code",
+      subject: "Subject",
       text: `Message`,
       html: `<p>Message</p><h1>Haiii</h1>`,
     };
