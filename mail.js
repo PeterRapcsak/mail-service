@@ -16,7 +16,7 @@ const {
 } = apiKeys.googleMailAuth;
 
 const senderAddress = "email1@gmail.com";
-const recipientAddresses = ["email2@gmail.com", "email3@gmail.com"]; // Add more email addresses as needed
+const recipientAddresses = ["email2@gmail.com", "email3@gmail.com"];
 
 //! ///////////////////////////////////////////////////
 
@@ -40,10 +40,9 @@ async function sendMail() {
     });
 
 
-    // Modify mailOptions to include the generated Wi-Fi code
     const mailOptions = {
       from: `Mail Service <${senderAddress}>`,
-      bcc: recipientAddresses.join(", "), // Use BCC to hide recipients from each other
+      bcc: recipientAddresses.join(", "),
       subject: "Subject",
       text: `Message`,
       html: `<p>Message</p><h1>Haiii</h1>`,
@@ -57,7 +56,6 @@ async function sendMail() {
 }
 
 
-// Schedule the task to run every day at 7:00 AM
 cron.schedule('10 12 * * *', async () => {
   try {
     const result = await sendMail();
